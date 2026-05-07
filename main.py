@@ -1,239 +1,121 @@
-# ====================================================================================================
-# 🏛️ INSTITUTION: KGO MULTI-ACADEMY | GLOBAL KNOWLEDGE SOVEREIGNTY
-# 👤 CHIEF ARCHITECT: KAMRON XUDAYNAZAROV (KGO GROUP FOUNDER)
-# 📍 HQ: SAMARKAND, KIMYOGARLAR QO'RG'ONI
-# 🧬 IQ THRESHOLD: 100,000,000,000+ (COSMIC SCALE)
-# 🚀 VERSION: 10.0.1 (ULTRA EXPANDED)
-# ====================================================================================================
-
 import streamlit as st
 import time
-import random
-import pandas as pd
-import numpy as np
-import plotly.graph_objects as go
-from datetime import datetime
 
-# --- [1. ENGINE CONFIGURATION] ---
-st.set_page_config(
-    page_title="KGO Academy | Sovereign Intelligence",
-    page_icon="👑",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# --- [CONFIG] ---
+st.set_page_config(page_title="KGO Academy", page_icon="👑", layout="wide")
 
-# --- [2. SUPREME NEURAL UI DESIGN - CSS] ---
+# --- [DESIGN] ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@200;700&display=swap');
-    
-    .stApp {
-        background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
-        color: #f1f5f9;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .mega-header {
-        font-family: 'Orbitron', sans-serif;
-        font-size: clamp(40px, 8vw, 100px);
-        font-weight: 900;
-        text-align: center;
-        background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700, #b8860b);
-        background-size: 300% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shine-effect 5s linear infinite;
-        filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
-    }
-
-    @keyframes shine-effect {
-        0% { background-position: 0% 50%; }
-        100% { background-position: 300% 50%; }
-    }
-
-    .kgo-card {
-        background: rgba(15, 23, 42, 0.8);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 215, 0, 0.2);
-        border-radius: 35px;
-        padding: 40px;
-        margin: 10px;
-        transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    
-    .kgo-card:hover {
-        transform: translateY(-15px) scale(1.03);
-        border-color: #ffd700;
-        box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
-    }
-
-    .stButton>button {
-        background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-        color: black !important;
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 900;
-        border-radius: 20px;
-        border: none;
-        padding: 20px;
-        transition: 0.4s;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
-
-    .stButton>button:hover {
-        box-shadow: 0 0 40px #ffd700;
-        transform: scale(1.05);
-    }
-
-    .kgo-divider {
-        height: 3px;
-        background: linear-gradient(90deg, transparent, #ffd700, transparent);
-        margin: 40px 0;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@400;700&display=swap');
+    .stApp { background: #020617; color: white; font-family: 'Inter', sans-serif; }
+    .mega-header { font-family: 'Orbitron', sans-serif; font-size: 60px; text-align: center; color: #ffd700; text-shadow: 0 0 20px #ffd700; }
+    .step-box { background: #0f172a; border-left: 5px solid #ffd700; padding: 20px; border-radius: 10px; margin: 15px 0; }
+    .ai-speech { background: #1e293b; padding: 15px; border-radius: 15px; font-style: italic; border: 1px dashed #ffd700; }
+    .highlight { color: #ffd700; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- [3. SYSTEM STATE MANAGEMENT] ---
 if 'page' not in st.session_state: st.session_state.page = 'home'
-if 'chat_history' not in st.session_state: st.session_state.chat_history = []
 
-# --- [4. CONTROL SIDEBAR] ---
+# --- [SIDEBAR] ---
 with st.sidebar:
-    st.markdown("<h1 style='color:#ffd700; font-family:Orbitron; text-align:center;'>KGO CORE</h1>", unsafe_allow_html=True)
-    st.image("https://img.freepik.com/free-vector/ai-technology-brain-background-digital-transformation-concept_53876-117831.jpg")
-    st.markdown("---")
-    
-    menu = {
-        "🏛️ DASHBOARD": "home",
-        "🤖 AI ENGINE": "ai",
-        "💻 WEB MASTER": "web",
-        "🌍 LINGUA LAB": "lang",
-        "📚 SCIENCE DEPT": "edu",
-        "📞 CONTACT": "contact"
-    }
-    
-    for label, key in menu.items():
-        if st.button(label, use_container_width=True):
-            st.session_state.page = key
-            st.rerun()
+    st.markdown("<h1 style='color:#ffd700;'>KGO MENU</h1>", unsafe_allow_html=True)
+    if st.button("🏛️ Dashboard"): st.session_state.page = 'home'; st.rerun()
+    if st.button("🤖 AI Architecture"): st.session_state.page = 'ai'; st.rerun()
+    if st.button("💻 Web Factory"): st.session_state.page = 'web'; st.rerun()
+    if st.button("🌍 Language Lab"): st.session_state.page = 'lang'; st.rerun()
+    st.write("---")
+    st.write("📍 Samarqand, Kimyogarlar")
+    st.write("📞 +998 93 729 28 66")
 
-    st.markdown("---")
-    st.write("🧬 **IQ STATUS:** `100,000,000,000`")
-    st.write("📍 **HQ:** Samarqand")
+# --- [PAGES] ---
 
-# --- [5. MASTER ROUTING] ---
-
-# >>> DASHBOARD PAGE <<<
 if st.session_state.page == 'home':
     st.markdown('<h1 class="mega-header">KGO ACADEMY</h1>', unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align:center; color:#94a3b8;'>UNIVERSAL KNOWLEDGE FACTORY</h3>", unsafe_allow_html=True)
-    st.markdown('<div class="kgo-divider"></div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    col3, col4 = st.columns(2)
-    
-    sections = [
-        {"col": col1, "icon": "🤖", "title": "AI ARCHITECTURE", "key": "ai", "txt": "GeminGPT kabi daxshatli botlarni qurish."},
-        {"col": col2, "icon": "💻", "title": "WEB FACTORY", "key": "web", "txt": "Rasmdan mukammal saytgacha bo'lgan yo'l."},
-        {"col": col3, "icon": "🌍", "title": "LINGUA LAB", "key": "lang", "txt": "Chet tillarini 100B IQ tahlil bilan o'rganish."},
-        {"col": col4, "icon": "📚", "title": "EDUCATION", "key": "edu", "txt": "Matematika va Fizika sirlarini kashf etish."}
-    ]
-    
-    for s in sections:
-        with s["col"]:
-            st.markdown(f"""<div class="kgo-card"><h1 style='text-align:center;'>{s['icon']}</h1><h2 style='text-align:center; color:#ffd700;'>{s['title']}</h2><p style='text-align:center;'>{s['txt']}</p></div>""", unsafe_allow_html=True)
-            if st.button(f"KIRISH - {s['title']}", key=f"btn_{s['key']}"):
-                st.session_state.page = s['key']
-                st.rerun()
+    st.write("### 🧬 100,000,000,000 IQ Tizimiga xush kelibsiz!")
+    st.write("Bu yerda bilim kutib turmaydi, u darhol beriladi.")
 
-# >>> AI PAGE <<<
-elif st.session_state.page == 'ai':
-    st.title("🤖 AI Architecture & Deep Learning")
-    st.markdown('<div class="kgo-card">', unsafe_allow_html=True)
-    st.write("### AI dunyosini boshqarish")
-    st.video("https://www.youtube.com/watch?v=ad79nYk2kEg")
-    st.markdown("""
-    **O'quv dasturi:**
-    - Neural Networks (Neyron tarmoqlar)
-    - Computer Vision (Tasvirni tanish)
-    - Natural Language Processing (NLP)
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'home'; st.rerun()
-
-# >>> WEB PAGE <<<
-elif st.session_state.page == 'web':
-    st.title("💻 Web Development Masterclass")
-    st.markdown('<div class="kgo-card">', unsafe_allow_html=True)
-    st.image("https://miro.medium.com/v2/resize:fit:1200/1*669eW0vR5s9_HjJmE6X5yA.png")
-    st.write("### Rasmni qanday qilib saytga aylantiramiz?")
-    st.info("KGO texnologiyasi: Design -> Image -> AI Processing -> Python Code -> Deployment.")
-    st.video("https://www.youtube.com/watch?v=erEgovG9WkY")
-    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'home'; st.rerun()
-
-# >>> LANGUAGE LAB PAGE <<<
+# >>> LANGUAGE LAB (AVTOMATIK DARSLIK) <<<
 elif st.session_state.page == 'lang':
-    st.title("🌍 Lingua Lab & AI Essay Checker")
+    st.title("🌍 Language Lab: Zero to IELTS")
+    lang_choice = st.radio("Tilni tanlang:", ["English 🇺🇸", "Russian 🇷🇺"], horizontal=True)
     
-    t1, t2, t3 = st.tabs(["🇺🇸 English", "🇷🇺 Russian", "✍️ AI Essay Checker"])
+    st.markdown('<div class="ai-speech"><b>KGO AI Teacher:</b> "Siz tanlov qildingiz, endi diqqat bilan eshiting. Men darsni boshladim!"</div>', unsafe_allow_html=True)
     
-    with t1:
-        st.write("### English Grammar & Speaking")
-        st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-    
-    with t3:
-        st.write("### 📝 AI Essay Analysis")
-        essay = st.text_area("Inshoingizni bu yerga yozing:", height=300)
-        if st.button("TAHLIL QILISH"):
-            with st.spinner("AI tahlil qilmoqda..."):
-                time.sleep(2)
-                st.success("Tahlil yakunlandi!")
-                st.markdown("""
-                **Natija (IELTS Band): 8.5**
-                - **Grammar:** Perfect (No errors found)
-                - **Lexical Resource:** Advanced vocabulary used.
-                - **Cohesion:** High logical flow.
-                """)
-    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'home'; st.rerun()
+    if lang_choice == "English 🇺🇸":
+        st.subheader("📚 Ingliz tili: Alifbodan IELTS gacha")
+        
+        with st.expander("1️⃣ STEP: Basics (Alifbo va Talaffuz)", expanded=True):
+            st.write("Ingliz tili 26 harfdan iborat. Eng muhimi unli harflar: **A, E, I, O, U**.")
+            st.info("💡 Qoida: 'A' harfi so'z boshida 'Ey' (Apple - noto'g'ri, Epl) yoki 'A' deb o'qiladi.")
+        
+        with st.expander("2️⃣ STEP: Tenses (Zamonlar - Fundamental)", expanded=True):
+            st.markdown("""
+            - **Present Simple (Hozirgi oddiy zamon):** Doimiy takrorlanadigan ishlar. 
+                - *Formula:* `Subject + Verb (s/es)`
+                - *Misol:* I speak English. (Men inglizcha gapiraman).
+            - **Past Simple (O'tgan zamon):** Tugagan ishlar.
+                - *Formula:* `Subject + Verb (ed/2-shakl)`
+                - *Misol:* I learned English. (Men inglizcha o'rgandim).
+            """)
+        
+        with st.expander("3️⃣ STEP: IELTS Road to 9.0", expanded=True):
+            st.warning("IELTS uchun sizga 4 ta ko'nikma kerak: Reading, Writing, Listening, Speaking.")
+            st.write("**Writing Task 2:** Sizdan kamida 250 ta so'zdan iborat akademik insho so'raladi.")
 
-# >>> EDUCATION PAGE <<<
-elif st.session_state.page == 'edu':
-    st.title("📚 Science & Fundamental Education")
-    fan = st.radio("Fanni tanlang:", ["Matematika", "Fizika", "Ona tili"], horizontal=True)
-    st.markdown(f'<div class="kgo-card"><h3>{fan} bo\'yicha chuqurlashtirilgan darslar</h3>', unsafe_allow_html=True)
-    st.image("https://img.freepik.com/free-vector/science-education-background_23-2148486111.jpg")
-    st.video("https://www.youtube.com/watch?v=X3paOmcrTjQ")
-    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'home'; st.rerun()
-
-# >>> CONTACT PAGE <<<
-elif st.session_state.page == 'contact':
-    st.title("📞 Official Contact & Support")
-    st.markdown(f"""
-    <div style='background: rgba(255, 215, 0, 0.1); padding: 50px; border-radius: 40px; border: 2px solid #ffd700;'>
-        <h1 style='color:#ffd700; text-align:center;'>KGO ACADEMY</h1>
-        <hr>
-        <h2 style='text-align:center;'>📞 Tel: +998 93 729 28 66</h2>
-        <h3 style='text-align:center;'>📍 Manzil: Samarqand, Kimyogarlar qo'rg'oni</h3>
-        <p style='text-align:center; font-size:20px;'>FOUNDER: <b>KAMRON XUDAYNAZAROV</b></p>
+# >>> WEB FACTORY (INSTRUKSIYA BILAN) <<<
+elif st.session_state.page == 'web':
+    st.title("💻 Web Factory: Professional Guide")
+    st.write("### Sayt yaratish va GitHub-ga joylash (Qadamma-qadam)")
+    
+    st.markdown("""
+    <div class="step-box">
+        <b class="highlight">1-QADAM: GitHub Account ochish</b><br>
+        1. <a href="https://github.com" style="color:cyan;">github.com</a> saytiga kiring.<br>
+        2. O'ng tepa burchakda <b>'Sign Up'</b> tugmasini bosing.<br>
+        3. Emailingizni yozing va 'Continue' bosing.<br>
+        4. Parol o'ylab toping (kamida 8 ta belgi).
+    </div>
+    <div class="step-box">
+        <b class="highlight">2-QADAM: Yangi Repository (Loyiha) yaratish</b><br>
+        1. Profilingizga kirgach, chap tarafdagi <b>'New'</b> (yashil tugma) bosing.<br>
+        2. 'Repository name' qismiga <b>'kgo-academy'</b> deb yozing.<br>
+        3. Pastroqqa tushib, <b>'Public'</b> tanlang va <b>'Create repository'</b> bosing.
+    </div>
+    <div class="step-box">
+        <b class="highlight">3-QADAM: Kodni yuklash</b><br>
+        1. 'Add file' tugmasini bosing (o'ng tepada).<br>
+        2. 'Create new file' bosing, nomini <b>main.py</b> qiling va kodingizni joylang.
     </div>
     """, unsafe_allow_html=True)
-    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'home'; st.rerun()
 
-# --- [6. SUPREME AI TEACHER INTERFACE] ---
-st.markdown('<div class="kgo-divider"></div>', unsafe_allow_html=True)
-st.markdown("### 👨‍🏫 KGO AI SUPER-TEACHER")
-chat_input = st.chat_input("Istalgan fan yoki biznes haqida so'rang...")
-if chat_input:
-    with st.chat_message("assistant"):
-        st.write(f"**KGO AI:** '{chat_input}' savolingiz Kamron Xudaynazarovning 100B IQ tizimi orqali tahlil qilindi...")
+# >>> AI ARCHITECTURE (HUGGING FACE BILAN) <<<
+elif st.session_state.page == 'ai':
+    st.title("🤖 AI Architecture: Hugging Face Guide")
+    st.write("### O'z AI-ingni yaratish (Hugging Face orqali)")
+    
+    st.markdown("""
+    <div class="step-box">
+        <b class="highlight">1. Hugging Face-da ro'yxatdan o'tish</b><br>
+        1. <a href="https://huggingface.co" style="color:cyan;">huggingface.co</a> ga kiring.<br>
+        2. O'ng tepada <b>'Sign Up'</b> tugmasi bor, shuni bosing.<br>
+        3. Email va Username kiriting.
+    </div>
+    <div class="step-box">
+        <b class="highlight">2. Modelni tanlash yoki Space yaratish</b><br>
+        1. Sahifaning tepa qismidagi menyudan <b>'Spaces'</b> bo'limiga o'ting.<br>
+        2. O'ng tarafda <b>'Create new Space'</b> (ko'k tugma) bosing.<br>
+        3. Space nomini yozing (masalan: 'my-ai-bot').<br>
+        4. 'SDK' qismidan <b>'Streamlit'</b>ni tanlang (pastki qatorda o'rtada).
+    </div>
+    <div class="step-box">
+        <b class="highlight">3. Modelni ishga tushirish</b><br>
+        1. Sahifaning pastida <b>'Create Space'</b> tugmasini bosing.<br>
+        2. Endi 'Files' bo'limiga o'tib, 'app.py' fayliga AI kodingizni yozing.
+    </div>
+    """, unsafe_allow_html=True)
 
-# --- [7. PROGRESS ANALYTICS] ---
+# --- [FOOTER] ---
 st.write("---")
-st.markdown("### 📊 AKADEMIYA STATISTIKASI")
-chart_data = pd.DataFrame(np.random.randn(25, 3), columns=['AI', 'Web', 'Language'])
-st.line_chart(chart_data)
-
-# --- [8. FOOTER] ---
-st.markdown("<p style='text-align:center; color:#475569;'>© 2026 KGO GROUP GLOBAL SYSTEMS | SAMARKAND DIVISION</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center;'>© 2026 KGO ACADEMY | FOUNDER: KAMRON XUDAYNAZAROV</p>", unsafe_allow_html=True)
