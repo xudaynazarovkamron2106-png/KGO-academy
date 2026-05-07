@@ -1,111 +1,165 @@
 import streamlit as st
-import pandas as pd
 import time
 
-# --- [1. KGO AI KNOWLEDGE DATABASE] ---
-# Bu yerda barcha fanlar uchun ma'lumotlar bazasini quramiz
-KGO_DATA = {
+# --- [1. MA'LUMOTLAR BAZASI (DATABASE)] ---
+# Har bir daraja va til uchun alohida ma'lumotlar
+DATABASE = {
     "English": {
-        "Starter": {"vocab": "1. Apple - Olma\n2. Book - Kitob\n3. Cat - Mushuk...", "speaking": "1. What is your name?\n2. How are you?"},
-        "A1": {"vocab": "1. Journey - Sayohat\n2. Goal - Maqsad...", "speaking": "1. Tell me about your city.\n2. What is your hobby?"}
+        "Starter": {"vocab": "1. Hello - Salom\n2. Apple - Olma\n3. School - Maktab", "speaking": "What is your name?"},
+        "A1": {"vocab": "1. Journey - Sayohat\n2. Experience - Tajriba\n3. Skill - Mahorat", "speaking": "Tell me about your daily routine."},
+        "B2": {"vocab": "1. Hypothesis - Faraz\n2. Consequently - Natijada\n3. Sustainable - Barqaror", "speaking": "Discuss the impact of AI on humanity."}
     },
-    "Fizika": "1-Mavzu: Nyuton qonunlari.\nFizika tabiat hodisalarini o'rganadi. Birinchi qonun: Inersiya...",
-    "Ona tili": "1-Mavzu: Gap bo'laklari.\nGapning asosi ega va kesimdir. Masalan: Kamron o'qiyapti.",
-    "Tarix": "1-Mavzu: Qadimgi dunyo.\nO'zbekiston hududida ilk davlatlar: Xorazm va Baqtriya...",
-    "Math": "Matematika - fanlar podshosi. 2x2=4. Kvadrat ildiz: sqrt(x)..."
+    "Russian": {
+        "Starter": {"vocab": "1. Привет - Salom\n2. Книга - Kitob\n3. Вода - Suv", "speaking": "Как тебя зовут?"},
+        "A1": {"vocab": "1. Путешествие - Sayohat\n2. Работа - Ish\n3. Семья - Oila", "speaking": "Расскажи о своей семье."},
+        "B2": {"vocab": "1. Влияние - Ta'sir\n2. Следовательно - Shuning uchun\n3. Развитие - Rivojlanish", "speaking": "Как технологии меняют мир?"}
+    },
+    "Math": {
+        "Algebra": "Formulalar: (a+b)² = a² + 2ab + b²\nKvadrat tenglama: x = (-b ± √D) / 2a",
+        "Geometriya": "Pifagor teoremasi: a² + b² = c²\nDoira yuzi: S = πr²",
+        "Logika": "Agar A=B va B=C bo'lsa, unda A=C bo'ladi."
+    }
 }
 
 # --- [2. PAGE CONFIG] ---
-st.set_page_config(page_title="KGO Academy Pro", layout="wide")
+st.set_page_config(page_title="KGO BOSS ACADEMY", layout="wide")
 
+# --- [3. DIZAYN (STYLES)] ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;600&display=swap');
-    .stApp { background: radial-gradient(circle, #001d3d 0%, #000814 100%); color: white; font-family: 'Poppins', sans-serif; }
-    .header-box { text-align: center; padding: 30px; border-bottom: 3px solid #ffc300; border-radius: 0 0 50px 50px; background: rgba(255,255,255,0.02); }
-    .stButton>button { background: linear-gradient(135deg, #ffc300 0%, #ffb703 100%) !important; color: #000814 !important; font-family: 'Orbitron', sans-serif !important; font-weight: bold; height: 120px; border-radius: 20px; border: none; transition: 0.3s; }
-    .stButton>button:hover { transform: translateY(-10px); box-shadow: 0 15px 30px #ffc30088; background: white !important; }
-    .ai-output { background: rgba(0,0,0,0.7); padding: 25px; border-radius: 20px; border-left: 5px solid #00f5ff; font-family: 'Courier New', monospace; color: #00f5ff; font-size: 18px; line-height: 1.6; }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap');
+    
+    .stApp { background: #000428; background: linear-gradient(to bottom, #004e92, #000428); color: white; }
+    
+    .boss-msg { 
+        background: rgba(0, 255, 0, 0.1); 
+        border: 2px solid #00ff00; 
+        padding: 20px; 
+        border-radius: 15px; 
+        font-family: 'Share Tech Mono', monospace;
+        color: #00ff00;
+        text-shadow: 0 0 10px #00ff00;
+    }
+
+    .stButton>button { 
+        background: linear-gradient(135deg, #ffc300 0%, #ffb703 100%) !important;
+        color: #000!important; font-weight: bold!important; border-radius: 12px!important;
+        height: 100px!important; font-family: 'Orbitron'; border: none!important;
+    }
+    
+    .ai-card {
+        background: rgba(0,0,0,0.6); padding: 25px; border-radius: 20px;
+        border-left: 5px solid #ffc300; font-family: 'Consolas'; font-size: 18px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# --- [3. SESSION STATE] ---
+# --- [4. SESSION STATE] ---
 if 'is_pro' not in st.session_state: st.session_state.is_pro = False
+if 'is_boss' not in st.session_state: st.session_state.is_boss = False
 if 'page' not in st.session_state: st.session_state.page = 'main'
 
-# --- [4. TYPEWRITER EFFECT] ---
-def kgo_typewriter(text):
+# --- [5. TYPEWRITER EFFECT] ---
+def write_ai(text):
     placeholder = st.empty()
-    full_text = ""
+    full = ""
     for char in text:
-        full_text += char
-        placeholder.markdown(f'<div class="ai-output">{full_text}▌</div>', unsafe_allow_html=True)
+        full += char
+        placeholder.markdown(f'<div class="ai-card">{full}▌</div>', unsafe_allow_html=True)
         time.sleep(0.01)
 
-# --- [5. TOP NAVIGATION] ---
-st.markdown('<div class="header-box"><h1 style="color:#ffc300; font-family:Orbitron; font-size:50px;">KGO ACADEMY</h1></div>', unsafe_allow_html=True)
+# --- [6. HEADER & PROMO] ---
+st.markdown('<h1 style="text-align:center; font-family:Orbitron; color:#ffc300;">KGO ACADEMY SYSTEM</h1>', unsafe_allow_html=True)
 
 if not st.session_state.is_pro:
-    _, col_top = st.columns([5, 1.2])
-    with col_top:
-        with st.popover("🟢 PRO / PROMO"):
-            p_code = st.text_input("Maxfiy kod:", type="password")
-            if st.button("ACTIVATE"):
-                if p_code == "KAMA": st.session_state.is_pro = True; st.rerun()
-                elif p_code == "UZKGO": st.session_state.is_pro = True; st.rerun()
-                else: st.error("Xato!")
+    _, c_promo = st.columns([5, 1.5])
+    with c_promo:
+        with st.popover("🟢 PRO / LOGIN"):
+            code = st.text_input("Maxfiy kod:", type="password")
+            if st.button("KIRISH"):
+                if code == "KAMA":
+                    st.session_state.is_pro = True
+                    st.session_state.is_boss = True
+                    st.rerun()
+                elif code == "UZKGO":
+                    st.session_state.is_pro = True
+                    st.rerun()
+            st.write("---")
+            st.info("To'lov va yangiliklar: [@PrimeK21](https://t.me/PrimeK21)")
 
-# --- [6. MAIN DASHBOARD] ---
+# --- [7. BOSS WELCOME] ---
+if st.session_state.is_boss:
+    st.markdown(f"""
+    <div class="boss-msg">
+        [SYSTEM ONLINE] <br>
+        STATUS: Kamron Xudaynazarov (BOSS) nazorati ostida. <br>
+        MESSAGE: Assalomu aleykum Boss, sayt yaxshi ishlab turibdi. Hamma tizimlar barqaror!
+    </div>
+    """, unsafe_allow_html=True)
+
+# --- [8. MAIN PAGE] ---
 if st.session_state.page == 'main':
     st.write("<br>", unsafe_allow_html=True)
-    num = 5 if st.session_state.is_pro else 3
-    cols = st.columns(num)
+    n_cols = 5 if st.session_state.is_pro else 3
+    cols = st.columns(n_cols)
     
     with cols[0]:
-        if st.button("🌍 LANGUAGE"): st.session_state.page = 'lang'; st.rerun()
+        if st.button("🌍 LANGUAGE\n(ENG/RUS)"): st.session_state.page = 'lang'; st.rerun()
     with cols[1]:
-        if st.button("📐 MATH"): st.session_state.page = 'math'; st.rerun()
+        if st.button("📐 MATH\n(FORMULAS)"): st.session_state.page = 'math'; st.rerun()
     with cols[2]:
-        if st.button("👨‍🏫 GeminGPT"): st.session_state.page = 'gemin'; st.rerun()
-    
+        if st.button("👨‍🏫 GeminGPT\n(TUTOR)"): st.session_state.page = 'gemin'; st.rerun()
+        
     if st.session_state.is_pro:
         with cols[3]:
-            if st.button("🤖 CREATE AI"): st.session_state.page = 'create_ai'; st.rerun()
+            if st.button("🤖 CREATE AI\n(BOSS MODE)"): st.session_state.page = 'create_ai'; st.rerun()
         with cols[4]:
-            if st.button("📚 SCIENCES"): st.session_state.page = 'sciences'; st.rerun()
+            if st.button("📚 SCIENCES\n(ALL SUBJECTS)"): st.session_state.page = 'sciences'; st.rerun()
 
-# --- [7. PAGES LOGIC] ---
+# --- [9. PAGE LOGICS] ---
 elif st.session_state.page == 'lang':
-    st.title("🌍 Language Intelligence")
-    lang = st.selectbox("Til:", ["English", "Russian"])
-    lvl = st.select_slider("Level:", ["Starter", "A1", "A2", "B1", "B2"])
+    st.header("🌍 Multi-Language Center")
+    l, r = st.columns(2)
+    sel_lang = l.selectbox("Tilni tanlang:", ["English", "Russian"])
+    sel_lvl = r.selectbox("Darajani tanlang:", ["Starter", "A1", "B2"])
+    
     if st.button("DARSNI KO'RISH"):
-        # API-siz, bazadan ma'lumot olamiz
-        text = f"--- {lang} {lvl} DARSI ---\n\n"
-        text += "1. VOCABULARY (50 ta so'z):\n" + KGO_DATA["English"]["Starter"]["vocab"]
-        text += "\n\n2. SPEAKING QUESTIONS (10 ta):\n" + KGO_DATA["English"]["Starter"]["speaking"]
-        kgo_typewriter(text)
-    if st.button("⬅️ BACK"): st.session_state.page = 'main'; st.rerun()
+        data = DATABASE[sel_lang].get(sel_lvl, DATABASE[sel_lang]["Starter"])
+        txt = f"--- {sel_lang} {sel_lvl} ---\n\nVOCABULARY:\n{data['vocab']}\n\nSPEAKING:\n{data['speaking']}"
+        write_ai(txt)
+    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'main'; st.rerun()
+
+elif st.session_state.page == 'math':
+    st.header("📐 Mathematics Hub")
+    m_type = st.radio("Bo'limni tanlang:", ["Algebra", "Geometriya", "Logika"], horizontal=True)
+    if st.button("FORMULALARNI CHIQAR"):
+        write_ai(DATABASE["Math"][m_type])
+    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'main'; st.rerun()
 
 elif st.session_state.page == 'gemin':
-    st.title("👨‍🏫 GeminGPT (Internal AI)")
-    q = st.text_input("Savolingizni yozing:")
+    st.header("👨‍🏫 GeminGPT Tutor")
+    user_q = st.text_input("Savolingizni bering:")
     if st.button("JAVOB"):
-        if "salom" in q.lower(): kgo_typewriter("Salom! Men KGO Academy-ning ichki intellektiman. Savolingizga javob berishga tayyorman.")
-        elif "matematika" in q.lower(): kgo_typewriter(KGO_DATA["Math"])
-        else: kgo_typewriter("Kechirasiz, hozircha bazamda bu savolga javob yo'q. Tez orada qo'shiladi!")
-    if st.button("⬅️ BACK"): st.session_state.page = 'main'; st.rerun()
+        if not st.session_state.is_pro:
+            write_ai("Free Trail-da javoblar cheklangan. To'liq darslar uchun @PrimeK21 ga bog'laning.")
+        else:
+            if "salom" in user_q.lower():
+                write_ai("Assalomu aleykum! Men KGO AI repetitoriman. Sizga qanday yordam bera olaman?")
+            else:
+                write_ai(f"Tizim '{user_q}' bo'yicha ma'lumotlarni tahlil qilmoqda... Javob: Bu soha bo'yicha darslarimiz Sciences bo'limida batafsil yoritilgan.")
+    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'main'; st.rerun()
 
 elif st.session_state.page == 'sciences':
-    st.title("📚 Full Science (PRO)")
-    sci = st.selectbox("Fan:", ["Fizika", "Ona tili", "Tarix"])
-    if st.button("DARSNI BOSHLASH"):
-        kgo_typewriter(KGO_DATA[sci])
-    if st.button("⬅️ BACK"): st.session_state.page = 'main'; st.rerun()
+    st.header("📚 Full Sciences (PRO ONLY)")
+    sc = st.selectbox("Fan:", ["Fizika", "Tarix", "Ona tili", "Adabiyot"])
+    if st.button("O'QISH"):
+        write_ai(f"{sc} fani bo'yicha KGO Professional kursi boshlandi. 1-Mavzu: Kirish...")
+    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'main'; st.rerun()
 
 elif st.session_state.page == 'create_ai':
-    st.title("🤖 AI Creation (PRO)")
-    kgo_typewriter("KGO AI Builder ishga tushdi...\n1. Model tanlang: KGO-Lite\n2. Platforma: Streamlit\n3. Tayyor! O'z AI-ingiz ishlamoqda.")
-    if st.button("⬅️ BACK"): st.session_state.page = 'main'; st.rerun()
+    st.header("🤖 AI Creation (BOSS MODE)")
+    write_ai("Tizim nazoratda. Kamron, siz yangi model yaratishingiz uchun HuggingFace bazasi ulandi.")
+    if st.button("⬅️ DASHBOARD"): st.session_state.page = 'main'; st.rerun()
 
-st.markdown("<br><hr><center>© 2026 KGO ACADEMY | KAMRON X.</center>", unsafe_allow_html=True)
+# --- [10. FOOTER] ---
+st.markdown(f"<br><hr><p style='text-align:center;'>To'lov va yangiliklar uchun: <a href='https://t.me/PrimeK21' style='color:#ffc300;'>@PrimeK21</a></p>", unsafe_allow_html=True)
