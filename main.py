@@ -2,167 +2,201 @@ import streamlit as st
 import time
 
 # --- [1. ENGINE CONFIGURATION] ---
-st.set_page_config(page_title="KGO Academy | Central Intelligence", page_icon="👑", layout="wide")
+st.set_page_config(page_title="KGO Academy | GeminGPT", page_icon="👑", layout="wide")
 
-# --- [2. SUPREME INTERFACE DESIGN - CSS] ---
+# --- [2. FUTURISTIC NEON DESIGN - CSS] ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;600&display=swap');
     
-    .stApp { background: #020617; color: white; font-family: 'Inter', sans-serif; }
+    .stApp {
+        background: radial-gradient(circle at center, #001219 0%, #000000 100%);
+        color: #00f5ff;
+        font-family: 'Rajdhani', sans-serif;
+    }
     
-    .mega-title { 
-        font-family: 'Orbitron', sans-serif; 
-        font-size: 80px; 
-        text-align: center; 
-        background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700);
+    .mega-header {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(40px, 8vw, 90px);
+        text-align: center;
+        background: linear-gradient(180deg, #00f5ff, #005f73);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 50px;
+        filter: drop-shadow(0 0 15px #00f5ff);
+        margin-bottom: 30px;
     }
 
-    /* Markaziy tugmalar stili */
+    /* Katta neon tugmalar */
     .stButton>button {
-        background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%) !important;
-        color: black !important;
+        background: rgba(0, 245, 255, 0.05) !important;
+        color: #00f5ff !important;
         font-family: 'Orbitron', sans-serif !important;
         font-weight: 900 !important;
-        font-size: 20px !important;
-        border-radius: 25px !important;
-        height: 100px !important;
-        border: none !important;
-        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-        transition: 0.4s all;
+        font-size: 18px !important;
+        border: 2px solid #00f5ff !important;
+        border-radius: 15px !important;
+        height: 120px !important;
+        width: 100% !important;
+        transition: 0.5s all ease;
+        box-shadow: 0 0 10px #00f5ff22;
     }
 
     .stButton>button:hover {
-        transform: scale(1.05) translateY(-10px);
-        box-shadow: 0 20px 50px rgba(255, 215, 0, 0.5);
+        background: #00f5ff !important;
+        color: #000000 !important;
+        box-shadow: 0 0 40px #00f5ff;
+        transform: translateY(-10px);
     }
 
-    .lesson-box {
-        background: rgba(15, 23, 42, 0.8);
-        border: 2px solid #ffd700;
-        border-radius: 30px;
-        padding: 40px;
-        margin-top: 20px;
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(0, 245, 255, 0.2);
+        border-radius: 25px;
+        padding: 30px;
+        margin: 10px 0;
     }
 
-    .step-card {
-        background: #1e293b;
-        border-left: 8px solid #ffd700;
-        padding: 20px;
-        margin: 15px 0;
-        border-radius: 10px;
+    .level-btn>button {
+        height: 50px !important;
+        font-size: 14px !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # --- [3. SESSION STATE] ---
 if 'view' not in st.session_state: st.session_state.view = 'main'
+if 'lang_level' not in st.session_state: st.session_state.lang_level = None
 
-# --- [4. MAIN SCREEN - ALL BUTTONS HERE] ---
+# --- [4. MAIN INTERFACE] ---
 if st.session_state.view == 'main':
-    st.markdown('<h1 class="mega-title">KGO ACADEMY</h1>', unsafe_allow_html=True)
-    st.write("<h3 style='text-align:center;'>Barcha tizimlar tayyor. Yo'nalishni tanlang:</h3>", unsafe_allow_html=True)
-    st.write("<br>", unsafe_allow_html=True)
-
-    col1, col2, col3 = st.columns(3)
+    st.markdown('<h1 class="mega-header">KGO ACADEMY</h1>', unsafe_allow_html=True)
+    st.write("<h4 style='text-align:center; color:#00f5ff;'>SYSTEM STATUS: ONLINE | IQ: 100,000,000,000</h4>", unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
     
     with col1:
-        if st.button("🤖 AI CREATION (HUGGING FACE)"):
-            st.session_state.view = 'ai_lesson'
+        if st.button("🤖 AI ARCHITECTURE\n(Hugging Face)"):
+            st.session_state.view = 'ai_logic'
             st.rerun()
-
     with col2:
-        if st.button("💻 WEB FACTORY (GITHUB GUIDE)"):
-            st.session_state.view = 'web_lesson'
+        if st.button("💻 WEB FACTORY\n(GitHub Master)"):
+            st.session_state.view = 'web_logic'
             st.rerun()
-
     with col3:
-        if st.button("🌍 LANGUAGE MASTER (ENG/RUS)"):
-            st.session_state.view = 'lang_lesson'
+        if st.button("🌍 LANGUAGE MASTER\n(Levels A1-B2)"):
+            st.session_state.view = 'lang_logic'
+            st.rerun()
+    with col4:
+        if st.button("👨‍🏫 GeminGPT TEACHER\n(All Sciences)"):
+            st.session_state.view = 'gemin_gpt'
             st.rerun()
 
+    st.markdown("<br><p style='text-align:center; opacity:0.6;'>Founder: Kamron Xudaynazarov | 📍 Samarkand | 📞 +998 93 729 28 66</p>", unsafe_allow_html=True)
+
+# --- [5. PAGES LOGIC] ---
+
+# >>> LANGUAGE MASTER (WITH LEVELS) <<<
+elif st.session_state.view == 'lang_logic':
+    st.title("🌍 Language Intelligence System")
+    lang = st.radio("Tilni tanlang:", ["English 🇺🇸", "Russian 🇷🇺"], horizontal=True)
+    
+    st.write("### Darajani tanlang:")
+    l_col1, l_col2, l_col3, l_col4, l_col5, l_col6 = st.columns(6)
+    levels = ["Starter1", "Starter2", "A1", "A2", "B1", "B2"]
+    cols = [l_col1, l_col2, l_col3, l_col4, l_col5, l_col6]
+    
+    for i, lvl in enumerate(levels):
+        with cols[i]:
+            if st.button(lvl, key=f"lvl_{lvl}"):
+                st.session_state.lang_level = lvl
+
+    if st.session_state.lang_level:
+        st.markdown(f'<div class="glass-card">', unsafe_allow_html=True)
+        st.subheader(f"Level: {st.session_state.lang_level} ({lang})")
+        
+        if st.session_state.lang_level in ["Starter1", "Starter2"]:
+            st.write("**Vocabulary:** Hello, Apple, Book, Pen, School.")
+            st.write("**Speaking:** 'My name is Kamron. I am from Samarkand.'")
+            st.write("**Grammar:** Verb TO BE (Am/Is/Are).")
+        elif "A" in st.session_state.lang_level:
+            st.write("**Vocabulary:** Environment, Technology, Education, Travel.")
+            st.write("**Speaking:** 'I like creating websites because it is my passion.'")
+            st.write("**Grammar:** Present Simple vs Continuous.")
+        else:
+            st.write("**Vocabulary:** Artificial Intelligence, Global Economy, Sustainability.")
+            st.write("**Speaking:** 'The integration of AI into education is inevitable.'")
+            st.write("**Grammar:** Passive Voice, Conditionals (If sentences).")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    if st.button("⬅️ BACK TO HUB"):
+        st.session_state.view = 'main'
+        st.rerun()
+
+# >>> GeminGPT TEACHER (ALL SCIENCES) <<<
+elif st.session_state.view == 'gemin_gpt':
+    st.title("👨‍🏫 GeminGPT Universal Teacher")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    topic = st.text_input("GeminGPT-dan xohlagan narsangizni so'rang (Masalan: Kvant fizikasi, Matematika, Biznes):")
+    
+    if topic:
+        with st.spinner("GeminGPT 100B IQ tahlil qilmoqda..."):
+            time.sleep(1)
+            st.success(f"Dars: {topic}")
+            st.write(f"**GeminGPT:** '{topic}' haqida ma'lumot shuki, bu soha kelajakda Kamron Xudaynazarov kabi innovatorlar uchun juda muhim. Mana asosiy qoidalar...")
+            st.info("💡 GeminGPT maslahati: Doimo amaliyotga e'tibor bering!")
+    
     st.write("---")
-    st.write(f"<p style='text-align:center;'>Founder: Kamron Xudaynazarov | 📍 Samarqand | 📞 +998 93 729 28 66</p>", unsafe_allow_html=True)
-
-# --- [5. LESSON PAGES - AUTOMATIC CONTENT] ---
-
-# >>> AI LESSON (HUGGING FACE) <<<
-elif st.session_state.view == 'ai_lesson':
-    st.markdown("## 🤖 Hugging Face orqali AI yaratish")
-    st.markdown('<div class="lesson-box">', unsafe_allow_html=True)
-    st.write("### AI Ustoz: 'Hugging Face - bu AI modellari dunyosi. Diqqat bilan bajaring:'")
-    
-    st.markdown("""
-    <div class="step-card">
-        <b>1. Ro'yxatdan o'tish:</b> <a href="https://huggingface.co" style="color:#ffd700;">huggingface.co</a> saytiga kiring. 
-        <b>O'ng tarafdagi eng tepada 'Sign Up'</b> tugmasini bosing.
-    </div>
-    <div class="step-card">
-        <b>2. Space yaratish:</b> Sahifaning <b>tepa menyusidan 'Spaces'</b> bo'limini toping (ikkinchi yoki uchinchi bo'lim). 
-        Keyin <b>o'ng tarafda ko'k rangli 'Create new Space'</b> tugmasini bosing.
-    </div>
-    <div class="step-card">
-        <b>3. Sozlamalar:</b> Space nomini yozing. Pastroqda <b>'Streamlit'</b> variantini tanlang (u o'rtada turadi). 
-        Eng pastga tushib <b>'Create Space'</b> tugmasini bosing.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if st.button("⬅️ ASOSIY EKRANGA QAYTISH"):
-        st.session_state.view = 'main'
-        st.rerun()
-
-# >>> WEB LESSON (GITHUB) <<<
-elif st.session_state.view == 'web_lesson':
-    st.markdown("## 💻 Web Factory: GitHub & Deployment")
-    st.markdown('<div class="lesson-box">', unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="step-card">
-        <b>1. GitHub Account:</b> <a href="https://github.com" style="color:#ffd700;">github.com</a> ga kiring. 
-        <b>O'ng tepada 'Sign Up'</b> bor. Emailingizni tasdiqlang.
-    </div>
-    <div class="step-card">
-        <b>2. Yangi Loyiha:</b> Dashboardingizning <b>chap tarafida yashil 'New'</b> tugmasi turadi. 
-        Shuni bosing va 'kgo-site' deb nom bering.
-    </div>
-    <div class="step-card">
-        <b>3. Kodni Joylash:</b> Repository yaratilgach, <b>'creating a new file'</b> havolasini bosing. 
-        Fayl nomini <b>main.py</b> qiling va kodingizni ichiga tashlab, pastdagi <b>'Commit changes'</b> tugmasini bosing.
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if st.button("⬅️ ASOSIY EKRANGA QAYTISH"):
-        st.session_state.view = 'main'
-        st.rerun()
-
-# >>> LANGUAGE LESSON (AUTOMATIC ENG/RUS) <<<
-elif st.session_state.view == 'lang_lesson':
-    st.title("🌍 Language Lab: Automatic Learning")
-    
-    option = st.radio("Qaysi tilni boshlaymiz?", ["English 🇺🇸", "Russian 🇷🇺"], horizontal=True)
-    
-    st.markdown('<div class="lesson-box">', unsafe_allow_html=True)
-    if option == "English 🇺🇸":
-        st.write("### 🇺🇸 Ingliz tili: Zero to IELTS")
-        st.write("AI Teacher: 'Darhol Present Simple zamonidan boshlaymiz.'")
-        st.markdown("""
-        - **Harflar:** Ingliz alifbosida 26 harf bor. Unlilar: A, E, I, O, U.
-        - **Zamonlar:** - *Present Simple:* Kundalik ishlar (I go to school). 
-            - *Present Continuous:* Hozir qilayotgan ishingiz (I am learning English).
-        - **IELTS Strategy:** Reading bo'limida 'Skimming' va 'Scanning' texnikasidan foydalaning.
-        """)
-    else:
-        st.write("### 🇷🇺 Rus tili: Noldan o'rganish")
-        st.markdown("""
-        - **Alifbo:** 33 ta harf. Eng muhimi 'Ь' va 'Ъ' belgilarini o'rganish.
-        - **Gap qurish:** Rus tilida gaplar 'Padej' (kelishik) orqali o'zgaradi.
-        - **Maslahat:** Har kuni kamida 10 ta fe'l yodlang.
-        """)
+    st.write("### Fanlar bo'limi:")
+    f_col1, f_col2, f_col3 = st.columns(3)
+    f_col1.metric("Matematika", "Advanced", "+100% IQ")
+    f_col2.metric("Fizika", "Quantum", "Active")
+    f_col3.metric("Web", "Full-Stack", "Professional")
     st.markdown('</div>', unsafe_allow_html=True)
     
-    if st.button("⬅️ ASOSIY EKRANGA QAYTISH"):
+    if st.button("⬅️ BACK TO HUB"):
+        st.session_state.view = 'main'
+        st.rerun()
+
+# >>> WEB FACTORY (RE-BUILT) <<<
+elif st.session_state.view == 'web_logic':
+    st.title("💻 Web Factory: Deployment Master")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("""
+    ### 1. GitHub Account (Account ochish)
+    - **Qayerda:** `github.com` - O'ng tepa burchak **'Sign Up'** tugmasi.
+    - **Nima:** Email kiriting, parolni eslab qoling.
+    
+    ### 2. Repository yaratish
+    - **Qayerda:** Chap tarafdagi yashil **'New'** tugmasi.
+    - **Nima:** Nomini `kgo-academy` qiling.
+    
+    ### 3. Streamlit Cloud ulanishi
+    - **Qayerda:** `share.streamlit.io` saytida GitHub orqali Login bosing.
+    - **Nima:** **'New app'** tugmasini bosing va yaratgan repository-ni tanlang.
+    """)
+    st.markdown('</div>', unsafe_allow_html=True)
+    if st.button("⬅️ BACK TO HUB"):
+        st.session_state.view = 'main'
+        st.rerun()
+
+# >>> AI LOGIC (HUGGING FACE RE-BUILT) <<<
+elif st.session_state.view == 'ai_logic':
+    st.title("🤖 AI Architecture: Hugging Face Specialist")
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("""
+    ### 1. Hugging Face Spaces
+    - **Tugma:** Tepa menyudagi **'Spaces'** bo'limi.
+    - **Harakat:** O'ng tarafdagi ko'k **'Create new Space'** tugmasi.
+    
+    ### 2. SDK Tanlash
+    - **Tugma:** Pastroqda **'Streamlit'** belgisini tanlang (aynan o'rtada).
+    
+    ### 3. Modelni yuklash
+    - **Harakat:** Space yaratilgach, **'Files'** bo'limiga kiring va 'Add file' tugmasi orqali `app.py` yaratib kodni joylang.
+    """)
+    st.markdown('</div>', unsafe_allow_html=True)
+    if st.button("⬅️ BACK TO HUB"):
         st.session_state.view = 'main'
         st.rerun()
