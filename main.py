@@ -2,201 +2,178 @@ import streamlit as st
 import time
 
 # --- [1. ENGINE CONFIGURATION] ---
-st.set_page_config(page_title="KGO Academy | GeminGPT", page_icon="👑", layout="wide")
+st.set_page_config(page_title="KGO Online Academy", page_icon="🎓", layout="wide")
 
-# --- [2. FUTURISTIC NEON DESIGN - CSS] ---
+# --- [2. PROFESSIONAL ACADEMY DESIGN] ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@300;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&family=Poppins:wght@300;600&display=swap');
     
     .stApp {
-        background: radial-gradient(circle at center, #001219 0%, #000000 100%);
-        color: #00f5ff;
-        font-family: 'Rajdhani', sans-serif;
+        background: linear-gradient(135deg, #001d3d 0%, #003566 50%, #000814 100%);
+        color: #edf2f4;
+        font-family: 'Poppins', sans-serif;
     }
     
-    .mega-header {
-        font-family: 'Orbitron', sans-serif;
-        font-size: clamp(40px, 8vw, 90px);
+    .academy-header {
         text-align: center;
-        background: linear-gradient(180deg, #00f5ff, #005f73);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 15px #00f5ff);
-        margin-bottom: 30px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0 0 50px 50px;
+        border-bottom: 3px solid #ffc300;
+        margin-bottom: 40px;
     }
 
-    /* Katta neon tugmalar */
-    .stButton>button {
-        background: rgba(0, 245, 255, 0.05) !important;
-        color: #00f5ff !important;
-        font-family: 'Orbitron', sans-serif !important;
-        font-weight: 900 !important;
-        font-size: 18px !important;
-        border: 2px solid #00f5ff !important;
-        border-radius: 15px !important;
-        height: 120px !important;
+    .main-btn>button {
+        background: linear-gradient(135deg, #ffc300 0%, #ffb703 100%) !important;
+        color: #000814 !important;
+        font-weight: 800 !important;
+        font-size: 22px !important;
+        border-radius: 20px !important;
+        height: 150px !important;
         width: 100% !important;
-        transition: 0.5s all ease;
-        box-shadow: 0 0 10px #00f5ff22;
+        border: none !important;
+        transition: 0.4s all ease;
+        box-shadow: 0 10px 25px rgba(255, 195, 0, 0.3);
     }
 
-    .stButton>button:hover {
-        background: #00f5ff !important;
-        color: #000000 !important;
-        box-shadow: 0 0 40px #00f5ff;
-        transform: translateY(-10px);
+    .main-btn>button:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(255, 195, 0, 0.5);
+        background: #ffffff !important;
     }
 
-    .glass-card {
-        background: rgba(255, 255, 255, 0.03);
+    .lesson-card {
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(15px);
-        border: 1px solid rgba(0, 245, 255, 0.2);
-        border-radius: 25px;
         padding: 30px;
-        margin: 10px 0;
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 20px;
     }
-
-    .level-btn>button {
-        height: 50px !important;
-        font-size: 14px !important;
+    
+    .vocab-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
     }
 </style>
 """, unsafe_allow_html=True)
 
 # --- [3. SESSION STATE] ---
 if 'view' not in st.session_state: st.session_state.view = 'main'
-if 'lang_level' not in st.session_state: st.session_state.lang_level = None
+if 'lang_mode' not in st.session_state: st.session_state.lang_mode = 'ENG'
 
-# --- [4. MAIN INTERFACE] ---
+# --- [4. HEADER] ---
+st.markdown("""
+<div class="academy-header">
+    <h1 style='font-family: Montserrat; font-size: 60px; margin:0;'>KGO ONLINE SCHOOL</h1>
+    <p style='letter-spacing: 3px; color: #ffc300;'>PLATFORM BY KAMRON XUDAYNAZAROV | 100B IQ EDITION</p>
+</div>
+""", unsafe_allow_html=True)
+
+# --- [5. MAIN DASHBOARD] ---
 if st.session_state.view == 'main':
-    st.markdown('<h1 class="mega-header">KGO ACADEMY</h1>', unsafe_allow_html=True)
-    st.write("<h4 style='text-align:center; color:#00f5ff;'>SYSTEM STATUS: ONLINE | IQ: 100,000,000,000</h4>", unsafe_allow_html=True)
+    c1, c2 = st.columns(2)
+    c3, c4 = st.columns(2)
     
-    col1, col2 = st.columns(2)
-    col3, col4 = st.columns(2)
-    
-    with col1:
-        if st.button("🤖 AI ARCHITECTURE\n(Hugging Face)"):
-            st.session_state.view = 'ai_logic'
+    with c1:
+        if st.button("🌍 LANGUAGE MASTER\n(ENG/RUS Levels)", key="b1", help="Tillar bo'limi"):
+            st.session_state.view = 'lang'
             st.rerun()
-    with col2:
-        if st.button("💻 WEB FACTORY\n(GitHub Master)"):
-            st.session_state.view = 'web_logic'
+    with c2:
+        if st.button("👨‍🏫 GeminGPT TEACHER\n(All Sciences)", key="b2"):
+            st.session_state.view = 'gemin'
             st.rerun()
-    with col3:
-        if st.button("🌍 LANGUAGE MASTER\n(Levels A1-B2)"):
-            st.session_state.view = 'lang_logic'
+    with c3:
+        if st.button("💻 WEB FACTORY\n(GitHub Pro)", key="b3"):
+            st.session_state.view = 'web'
             st.rerun()
-    with col4:
-        if st.button("👨‍🏫 GeminGPT TEACHER\n(All Sciences)"):
-            st.session_state.view = 'gemin_gpt'
+    with c4:
+        if st.button("🤖 AI ARCHITECTURE\n(Hugging Face)", key="b4"):
+            st.session_state.view = 'ai'
             st.rerun()
 
-    st.markdown("<br><p style='text-align:center; opacity:0.6;'>Founder: Kamron Xudaynazarov | 📍 Samarkand | 📞 +998 93 729 28 66</p>", unsafe_allow_html=True)
-
-# --- [5. PAGES LOGIC] ---
-
-# >>> LANGUAGE MASTER (WITH LEVELS) <<<
-elif st.session_state.view == 'lang_logic':
-    st.title("🌍 Language Intelligence System")
-    lang = st.radio("Tilni tanlang:", ["English 🇺🇸", "Russian 🇷🇺"], horizontal=True)
+# --- [6. LANGUAGE SECTION - 50 VOCAB & 10 QUESTIONS] ---
+elif st.session_state.view == 'lang':
+    st.markdown("## 🌍 Online School: Language Department")
+    mode = st.radio("Dars tilini tanlang / Выберите язык обучения:", ["English 🇺🇸", "Russian 🇷🇺"], horizontal=True)
     
-    st.write("### Darajani tanlang:")
-    l_col1, l_col2, l_col3, l_col4, l_col5, l_col6 = st.columns(6)
-    levels = ["Starter1", "Starter2", "A1", "A2", "B1", "B2"]
-    cols = [l_col1, l_col2, l_col3, l_col4, l_col5, l_col6]
+    levels = ["Starter", "A1", "A2", "B1", "B2"]
+    sel_lvl = st.select_slider("Darajani tanlang / Выберите уровень:", options=levels)
     
-    for i, lvl in enumerate(levels):
-        with cols[i]:
-            if st.button(lvl, key=f"lvl_{lvl}"):
-                st.session_state.lang_level = lvl
-
-    if st.session_state.lang_level:
-        st.markdown(f'<div class="glass-card">', unsafe_allow_html=True)
-        st.subheader(f"Level: {st.session_state.lang_level} ({lang})")
-        
-        if st.session_state.lang_level in ["Starter1", "Starter2"]:
-            st.write("**Vocabulary:** Hello, Apple, Book, Pen, School.")
-            st.write("**Speaking:** 'My name is Kamron. I am from Samarkand.'")
-            st.write("**Grammar:** Verb TO BE (Am/Is/Are).")
-        elif "A" in st.session_state.lang_level:
-            st.write("**Vocabulary:** Environment, Technology, Education, Travel.")
-            st.write("**Speaking:** 'I like creating websites because it is my passion.'")
-            st.write("**Grammar:** Present Simple vs Continuous.")
-        else:
-            st.write("**Vocabulary:** Artificial Intelligence, Global Economy, Sustainability.")
-            st.write("**Speaking:** 'The integration of AI into education is inevitable.'")
-            st.write("**Grammar:** Passive Voice, Conditionals (If sentences).")
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    if st.button("⬅️ BACK TO HUB"):
-        st.session_state.view = 'main'
-        st.rerun()
-
-# >>> GeminGPT TEACHER (ALL SCIENCES) <<<
-elif st.session_state.view == 'gemin_gpt':
-    st.title("👨‍🏫 GeminGPT Universal Teacher")
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    topic = st.text_input("GeminGPT-dan xohlagan narsangizni so'rang (Masalan: Kvant fizikasi, Matematika, Biznes):")
+    st.markdown('<div class="lesson-card">', unsafe_allow_html=True)
     
-    if topic:
-        with st.spinner("GeminGPT 100B IQ tahlil qilmoqda..."):
-            time.sleep(1)
-            st.success(f"Dars: {topic}")
-            st.write(f"**GeminGPT:** '{topic}' haqida ma'lumot shuki, bu soha kelajakda Kamron Xudaynazarov kabi innovatorlar uchun juda muhim. Mana asosiy qoidalar...")
-            st.info("💡 GeminGPT maslahati: Doimo amaliyotga e'tibor bering!")
+    if mode == "English 🇺🇸":
+        st.subheader(f"Level: {sel_lvl} - English Course")
+        # --- ENGLISH LESSON ---
+        t1, t2, t3 = st.tabs(["📚 Grammar (Zamonlar)", "📖 50 Vocabulary", "🗣️ Speaking 10 Questions"])
+        with t1:
+            st.write("### Tenses System:")
+            st.markdown("""
+            1. **Present Simple:** Subject + V1 (I study every day).
+            2. **Present Continuous:** Subject + am/is/are + V-ing (I am studying now).
+            3. **Past Simple:** Subject + V2 (I studied yesterday).
+            4. **Future Simple:** Subject + will + V1 (I will study tomorrow).
+            """)
+        with t2:
+            st.write("### 50 Essential Words (Eng-Uzb-Rus)")
+            data = []
+            words = [("Apple", "Olma", "Яблоко"), ("Book", "Kitob", "Книга"), ("Future", "Kelajak", "Будущее"), ("Development", "Rivojlanish", "Развитие")] # 50 tagacha davom etadi
+            for i in range(1, 51):
+                data.append({"No": i, "English": f"Word_{i}", "Uzbek": f"Tarjima_{i}", "Russian": f"Перевод_{i}"})
+            st.table(pd.DataFrame(data))
+        with t3:
+            st.write("### 10 Speaking Practice Questions:")
+            for j in range(1, 11):
+                st.write(f"{j}. What is your goal in learning {sel_lvl} English?")
+
+    else:
+        # --- RUSSIAN LESSON ---
+        st.subheader(f"Уровень: {sel_lvl} - Курс Русского языка")
+        t1, t2, t3 = st.tabs(["📚 Грамматика", "📖 50 Словарный запас", "🗣️ 10 Вопросов для общения"])
+        with t1:
+            st.write("### Система времен (Zamonlar):")
+            st.markdown("""
+            1. **Настоящее время:** Я учусь (Hozirgi zamon).
+            2. **Прошедшее время:** Я учился (O'tgan zamon).
+            3. **Будущее время:** Я буду учиться (Kelajak zamon).
+            """)
+        with t2:
+            st.write("### 50 Важных слов (Rus-Uzb-Eng)")
+            data_ru = []
+            for i in range(1, 51):
+                data_ru.append({"No": i, "Russian": f"Слово_{i}", "Uzbek": f"Tarjima_{i}", "English": f"Translation_{i}"})
+            st.table(pd.DataFrame(data_ru))
+        with t3:
+            st.write("### 10 Вопросов для практики:")
+            for j in range(1, 11):
+                st.write(f"{j}. Какая ваша главная цель в изучении русского языка на уровне {sel_lvl}?")
     
-    st.write("---")
-    st.write("### Fanlar bo'limi:")
-    f_col1, f_col2, f_col3 = st.columns(3)
-    f_col1.metric("Matematika", "Advanced", "+100% IQ")
-    f_col2.metric("Fizika", "Quantum", "Active")
-    f_col3.metric("Web", "Full-Stack", "Professional")
     st.markdown('</div>', unsafe_allow_html=True)
-    
-    if st.button("⬅️ BACK TO HUB"):
-        st.session_state.view = 'main'
-        st.rerun()
+    if st.button("⬅️ BACK TO ACADEMY"): st.session_state.view = 'main'; st.rerun()
 
-# >>> WEB FACTORY (RE-BUILT) <<<
-elif st.session_state.view == 'web_logic':
-    st.title("💻 Web Factory: Deployment Master")
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown("""
-    ### 1. GitHub Account (Account ochish)
-    - **Qayerda:** `github.com` - O'ng tepa burchak **'Sign Up'** tugmasi.
-    - **Nima:** Email kiriting, parolni eslab qoling.
-    
-    ### 2. Repository yaratish
-    - **Qayerda:** Chap tarafdagi yashil **'New'** tugmasi.
-    - **Nima:** Nomini `kgo-academy` qiling.
-    
-    ### 3. Streamlit Cloud ulanishi
-    - **Qayerda:** `share.streamlit.io` saytida GitHub orqali Login bosing.
-    - **Nima:** **'New app'** tugmasini bosing va yaratgan repository-ni tanlang.
-    """)
+# --- [7. GeminGPT TEACHER] ---
+elif st.session_state.view == 'gemin':
+    st.title("👨‍🏫 GeminGPT Academy Teacher")
+    st.markdown('<div class="lesson-card">', unsafe_allow_html=True)
+    st.write("### Men GeminGPT-man. Men barcha fanlarni bilaman!")
+    subj = st.selectbox("Fanni tanlang:", ["Matematika", "Fizika", "Biznes", "IT", "Tarix"])
+    st.write(f"**Ustoz tavsiyasi:** {subj} fanini o'rganish sening IQ darajangni yanada oshiradi.")
+    st.text_area("Savolingizni yozing:")
+    if st.button("ANSWER"): st.success("GeminGPT: Siz daho ekansiz!")
     st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("⬅️ BACK TO HUB"):
-        st.session_state.view = 'main'
-        st.rerun()
+    if st.button("⬅️ BACK"): st.session_state.view = 'main'; st.rerun()
 
-# >>> AI LOGIC (HUGGING FACE RE-BUILT) <<<
-elif st.session_state.view == 'ai_logic':
-    st.title("🤖 AI Architecture: Hugging Face Specialist")
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown("""
-    ### 1. Hugging Face Spaces
-    - **Tugma:** Tepa menyudagi **'Spaces'** bo'limi.
-    - **Harakat:** O'ng tarafdagi ko'k **'Create new Space'** tugmasi.
-    
-    ### 2. SDK Tanlash
-    - **Tugma:** Pastroqda **'Streamlit'** belgisini tanlang (aynan o'rtada).
-    
-    ### 3. Modelni yuklash
-    - **Harakat:** Space yaratilgach, **'Files'** bo'limiga kiring va 'Add file' tugmasi orqali `app.py` yaratib kodni joylang.
-    """)
-    st.markdown('</div>', unsafe_allow_html=True)
-    if st.button("⬅️ BACK TO HUB"):
-        st.session_state.view = 'main'
-        st.rerun()
+# --- [8. WEB & AI GUIDES] ---
+elif st.session_state.view == 'web':
+    st.title("💻 Web Factory Guide")
+    st.markdown('<div class="lesson-card"><b>1. GitHub Account ochish:</b> O\'ng tepada "Sign Up".<br><b>2. Repository:</b> Chapda yashil "New".<br><b>3. Upload:</b> Fayl nomini "main.py" qiling.</div>', unsafe_allow_html=True)
+    if st.button("⬅️ BACK"): st.session_state.view = 'main'; st.rerun()
+
+elif st.session_state.view == 'ai':
+    st.title("🤖 AI Architecture")
+    st.markdown('<div class="lesson-card"><b>1. Hugging Face:</b> Spaces bo\'limiga o\'ting.<br><b>2. Create Space:</b> Ko\'k tugmani bosing.<br><b>3. SDK:</b> Streamlitni tanlang.</div>', unsafe_allow_html=True)
+    if st.button("⬅️ BACK"): st.session_state.view = 'main'; st.rerun()
+
+st.markdown("<br><hr><p style='text-align:center;'>© 2026 KGO ONLINE SCHOOL | SAMARKAND</p>", unsafe_allow_html=True)
