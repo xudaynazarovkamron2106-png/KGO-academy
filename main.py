@@ -1,125 +1,115 @@
-# ====================================================================================================
-# 🏛️ PLATFORMA: KGO ACADEMY - FUTURE LEARNING SYSTEMS
-# 🎓 MAQSAD: AI VA TEXNOLOGIYALARNI 100,000 IQ DARAJASIDA O'RGATISH
-# 👤 ASOSCHI: KAMRON XUDAYNAZAROV
-# ====================================================================================================
-
 import streamlit as st
-import time
 
-# --- [SECTION 1] SAHIFA SOZLAMALARI ---
-st.set_page_config(
-    page_title="KGO Academy | Knowledge is Power",
-    page_icon="🎓",
-    layout="wide"
-)
+# --- [1. SAHIFA SOZLAMALARI] ---
+st.set_page_config(page_title="KGO Academy", page_icon="🎓", layout="wide")
 
-# --- [SECTION 2] ACADEMY PREMIUM DESIGN (CSS) ---
+if 'page' not in st.session_state:
+    st.session_state.page = 'home'
+
+# --- [2. DAXSHATLI DIZAYN] ---
 st.markdown("""
 <style>
-    /* KGO Academy uchun maxsus qora va tilla rangli dizayn */
-    .stApp {
-        background: radial-gradient(circle at top, #0f172a, #020617);
-        color: #e2e8f0;
-    }
-    
-    .academy-header {
-        text-align: center;
-        padding: 50px;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 30px;
-        border: 1px solid rgba(255, 215, 0, 0.2);
-        margin-bottom: 40px;
-    }
-    
-    .kgo-title {
-        font-size: 70px;
-        font-weight: 900;
-        letter-spacing: 5px;
-        background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shine 3s linear infinite;
-    }
-    
-    @keyframes shine {
-        to { background-position: 200% center; }
-    }
-
-    .course-box {
-        background: #0f172a;
-        padding: 30px;
-        border-radius: 20px;
-        border-bottom: 4px solid #ffd700;
-        transition: 0.4s;
-        height: 100%;
-    }
-    
-    .course-box:hover {
-        transform: scale(1.05);
-        box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
-    }
+    .stApp { background: #020617; color: white; }
+    .title { font-size: 50px; font-weight: 900; text-align: center; color: #ffd700; }
+    .btn-desc { font-size: 14px; color: #94a3b8; text-align: center; margin-bottom: 10px; }
+    .card { background: #0f172a; padding: 20px; border-radius: 15px; border: 1px solid #334155; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- [SECTION 3] ASOSIY QISM ---
-st.markdown('<div class="academy-header">', unsafe_allow_html=True)
-st.markdown('<h1 class="kgo-title">KGO ACADEMY</h1>', unsafe_allow_html=True)
-st.markdown('<h3>Build the Future with AI</h3>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+# --- [3. SAHIFALAR] ---
 
-# --- [SECTION 4] DARSLAR ---
-st.subheader("🚀 Bizning Kurslar")
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
-    <div class="course-box">
-        <h2 style="color:#ffd700;">🧠 AI Architecture</h2>
-        <p>GeminGPT kabi murakkab AI tizimlarini yaratishni o'rganing.</p>
-        <hr>
-        <li>Python Foundation</li>
-        <li>API Integration</li>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div class="course-box">
-        <h2 style="color:#ffd700;">🎨 Prompt Mastery</h2>
-        <p>FLUX va Ideogram yordamida san'at darajasidagi rasmlar yaratish.</p>
-        <hr>
-        <li>Advanced Prompts</li>
-        <li>Style Engineering</li>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div class="course-box">
-        <h2 style="color:#ffd700;">💻 Web Development</h2>
-        <p>Professional saytlar va Streamlit interfeyslarini qurish.</p>
-        <hr>
-        <li>Modern UI/UX</li>
-        <li>Deployment</li>
-    </div>
-    """, unsafe_allow_html=True)
-
-# --- [SECTION 5] YANGI AI - KGO TUTOR ---
-st.write("---")
-st.header("👨‍🏫 KGO Tutor bilan bog'lanish")
-
-if "academy_chat" not in st.session_state:
-    st.session_state.academy_chat = []
-
-chat_input = st.chat_input("Akademiyaga oid savolingizni bering...")
-
-if chat_input:
-    # Bu yerda yangi AI logic bo'ladi
-    st.session_state.academy_chat.append({"role": "user", "content": chat_input})
+# --- ASOSIY SAHIFA ---
+if st.session_state.page == 'home':
+    st.markdown('<h1 class="title">KGO ACADEMY</h1>', unsafe_allow_html=True)
+    st.write("---")
     
-    with st.chat_message("assistant"):
-        st.write("Salom! Men KGO Academy yordamchisiman. Kamron Xudaynazarovning bilimlar bazasi asosida sizga yordam beraman.")
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
 
-st.markdown("<br><br><p style='text-align:center;'>© 2026 KGO GROUP GLOBAL SYSTEMS | KAMRON XUDAYNAZAROV</p>", unsafe_allow_html=True)
+    with col1:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.write("### 🤖 1. AI Architecture")
+        st.write('<p class="btn-desc">GeminGPT kabi aqlli botlarni noldan qurishni o\'rgatadi.</p>', unsafe_allow_html=True)
+        if st.button("AI Bo'limiga o'tish", use_container_width=True):
+            st.session_state.page = 'ai'
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col2:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.write("### 💻 2. Website Creation")
+        st.write('<p class="btn-desc">Rasmlardan qanday qilib tayyor sayt yaratish sirlari.</p>', unsafe_allow_html=True)
+        if st.button("Web Bo'limiga o'tish", use_container_width=True):
+            st.session_state.page = 'web'
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col3:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.write("### 🌍 3. Foreign Languages")
+        st.write('<p class="btn-desc">Ingliz va Rus tillarini Grammar, Speaking va Essay bilan o\'rganing.</p>', unsafe_allow_html=True)
+        if st.button("Tillar Bo'limiga o'tish", use_container_width=True):
+            st.session_state.page = 'lang'
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with col4:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.write("### 📚 4. Umumiy Ta'lim")
+        st.write('<p class="btn-desc">Matematika, Ona tili va boshqa fanlar darsliklari.</p>', unsafe_allow_html=True)
+        if st.button("Fanlar Bo'limiga o'tish", use_container_width=True):
+            st.session_state.page = 'edu'
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# --- 2-BUTTON: WEB SITE ---
+elif st.session_state.page == 'web':
+    st.title("💻 Website Creation")
+    st.write("### Sayt yaratish bosqichlari:")
+    # Rasm bilan tushuntirish
+    st.image("https://miro.medium.com/v2/resize:fit:1200/1*669eW0vR5s9_HjJmE6X5yA.png", caption="Web Development Roadmap")
+    st.markdown("""
+    1. **Design:** Avval saytning rasmini chizasiz.
+    2. **Coding:** Rasmdagi elementlarni Python yoki HTML kodiga aylantirasiz.
+    3. **Launch:** Tayyor kodni internetga chiqarasiz.
+    """)
+    if st.button("⬅️ Bosh sahifa"): st.session_state.page = 'home'; st.rerun()
+
+# --- 3-BUTTON: TILLAR ---
+elif st.session_state.page == 'lang':
+    st.title("🌍 Foreign Languages")
+    til = st.selectbox("Tilni tanlang:", ["Ingliz tili 🇺🇸", "Rus tili 🇷🇺"])
+    
+    st.subheader(f"{til} bo'yicha darslar:")
+    t1, t2, t3 = st.tabs(["📖 Grammar", "🗣️ Speaking", "📝 Essay"])
+    
+    with t1:
+        st.write("Grammatika qoidalari: Tenses, Articles va boshqalar.")
+        st.video("https://www.youtube.com/watch?v=dQw4w9WgXcQ") # Namuna video
+    with t2:
+        st.write("Talaffuz va kundalik muloqot mashqlari.")
+        st.image("https://img.freepik.com/free-vector/english-language-concept-illustration_114360-1111.jpg", width=400)
+    with t3:
+        st.write("Insho yozish strukturasi va namunalari.")
+
+    if st.button("⬅️ Bosh sahifa"): st.session_state.page = 'home'; st.rerun()
+
+# --- 4-BUTTON: TA'LIM ---
+elif st.session_state.page == 'edu':
+    st.title("📚 Umumiy Ta'lim Fanlari")
+    fan = st.radio("Fanni tanlang:", ["Matematika", "Ona tili", "Fizika"])
+    
+    st.subheader(f"{fan} dars xonasi")
+    st.image("https://img.freepik.com/free-vector/back-to-school-background_23-2148604516.jpg", width=600)
+    st.write(f"Siz hozir {fan} fani bo'yicha video darslar va rasmli qo'llanmalarni ko'rishingiz mumkin.")
+    
+    if st.button("⬅️ Bosh sahifa"): st.session_state.page = 'home'; st.rerun()
+
+# --- [4. AI TEACHER & BUSINESS] ---
+st.write("---")
+st.sidebar.markdown("### 👨‍🏫 KGO AI Teacher")
+st.sidebar.info("Salom! Men sizga saytlar yaratish, tillar va biznesni qanday boshlashni o'rgataman.")
+if st.sidebar.button("Biznes darsi"):
+    st.sidebar.success("Biznes darsi: 1. G'oya -> 2. Sayt -> 3. Mijoz!")
+
+st.markdown('<div style="text-align:center; color:gray;">© 2026 KGO Group | Kamron Xudaynazarov</div>', unsafe_allow_html=True)
